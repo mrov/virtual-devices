@@ -11,8 +11,7 @@ def air_conditioner(device_id):
 
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code "+str(rc))
-        client.subscribe("commands/air_conditioner/3")
-        #client.subscribe("commands/air_conditioner/" + device_id)
+        client.subscribe("commands/air_conditioner/" + device_id)
 
 
     def on_message(client, userdata, msg):
