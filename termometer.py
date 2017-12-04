@@ -15,7 +15,7 @@ def termometer(device_id):
 	client = mqtt.Client()
 	client.on_connect = on_connect
 
-	client.connect("localhost", 1883, 60)
+	client.connect("localhost", 5003, 60)
 
 	client.loop_start()
 

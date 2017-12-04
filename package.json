@@ -1,0 +1,22 @@
+{
+  "name": "virtual-devices",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrov/virtual-devices.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrov/virtual-devices/issues"
+  },
+  "homepage": "https://github.com/mrov/virtual-devices#readme",
+  "dependencies": {
+    "mqtt": "^2.14.0"
+  }
+}

@@ -21,7 +21,7 @@ def smart_lamp(device_id):
 	client.on_connect = on_connect
 	client.on_message = on_message
 
-	client.connect("localhost", 1883, 60)
+	client.connect("localhost", 5001, 60)
 
 	client.loop_start()
 

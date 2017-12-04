@@ -23,7 +23,7 @@ def smart_lock(device_id):
     client.on_connect = on_connect
     client.on_message = on_message
 
-    client.connect("localhost", 1883, 60)
+    client.connect("localhost", 5002, 60)
     client.loop_start()
 
     while True:
