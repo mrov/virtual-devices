@@ -21,25 +21,27 @@ function airChangeTemp(newTemp, deviceId){
 /**
  * @param {string} deviceId o id do dispositivo
  */
-await function airGetTemp(deviceId){
-  var result;
+function airGetTemp(deviceId){
+  var result = "";
   air.on('message', function (topic, message) {
     // message is Buffer
     let mensagem = message.toString();
     let n = mensagem.indexOf(":");
     let id = mensagem.slice(0,n);
     let temp = mensagem.slice(n+2,);
-    //console.log("mensagem: " + message + " indice dos 2 pontos: " + n + " id: " + id + " temperatura: " + temp);
+    console.log("mensagem: " + message + " indice dos 2 pontos: " + n + " id: " + id + " temperatura: " + temp);
     if(deviceId === id){
       result = temp;
       air.removeAllListeners();
     }
   });
+  setTimeout(() => {
+    console.log(result);
+  }, 3000);
 }
 airChangeTemp("33", "0");
-console.log(airGetTemp("0"));
-var result = await airGetTemp(0);
-console.log(result);
+airGetTemp("80");
+//airGetTemp(0);
 //airGetTemp(0);
 //airGetTemp(0);
 
