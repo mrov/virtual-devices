@@ -21,8 +21,7 @@ lock.on('message', function (topic, message) {
  * @param {string} deviceId o id do dispositivo
  */
 exports.lockChangeState = function (newState, deviceId){
-  var intNewState = Number(newState);
-  if (intNewState > 1 || intNewState < 0) {
+  if (Number(newState) > 1 || Number(newState) < 0) {
     return (408)
   }
   else{
@@ -35,8 +34,12 @@ exports.lockChangeState = function (newState, deviceId){
  * @param {string} deviceId o id do dispositivo
  */
 exports.lockGetState = function (deviceId){
- // console.log(locks[deviceId]);
-  return locks[deviceId];
+  if(typeof locks[deviceId] === "undefined"){
+    return {code: 404 , data: "Device not found"}
+  }
+  else{
+    return {code: 200, data: {state: locks[deviceId]}};
+  }
 }
 
 exports.everyLocks = function (){
@@ -51,10 +54,15 @@ exports.everyLocks = function (){
 }
 
 exports.setEveryLocks = function(newState){
-  for (const key in locks) {
-    if (locks.hasOwnProperty(key)) {
-      lock.publish('commands/smart_lock/' + key, newState)
-    }
+  if (Number(newState) > 1 || Number(newState) < 0) {
+    return (408)
   }
-  return "Todas as locks alteradas para " + newState;
+  else{
+    for (const key in locks) {
+      if (locks.hasOwnProperty(key)) {
+        lock.publish('commands/smart_lock/' + key, newState)
+      }
+    }
+    return (200);
+  }
 }

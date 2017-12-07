@@ -16,26 +16,22 @@ app.get('/', function (req, res) {
 
 app.get('/device/air/:id', function(req, res){
     var deviceId = req.params.id;
-    var result = {code: 200, data: {temperature: air_controller.airGetTemp(deviceId)}};
-    res.send(result);
+    res.send(air_controller.airGetTemp(deviceId));
 })
 
 app.get('/device/lamp/:id', function(req, res){
     var deviceId = req.params.id;
-    var result = {code: 200, data: {state: lamp_controller.lampGetState(deviceId)}};
-    res.send(result);
+    res.send(lamp_controller.lampGetState(deviceId));
 });
 
 app.get('/device/lock/:id', function(req, res){
     var deviceId = req.params.id;
-    var result = {code: 200, data: {state: lock_controller.lockGetState(deviceId)}};
-    res.send(result);
+    res.send(lock_controller.lockGetState(deviceId));
 });
 
 app.get('/device/therm/:id', function(req, res){
     var deviceId = req.params.id;
-    var result = {code: 200, data: {temperature: therm_controller.thermGetTemp(deviceId)}};
-    res.send(result);
+    res.send(therm_controller.thermGetTemp(deviceId));
 });
 
 
@@ -87,24 +83,21 @@ app.get('/devices/therm' , function(req, res){
 
 app.patch('/devices/air' , function(req, res){
     var temp = req.body.temperature;
-    var result = {code: 200, data: air_controller.setEveryAirs(temp)}
-    res.send(result);
+    res.send({code: air_controller.setEveryAirs(temp)});
 })
 
 app.patch('/devices/lamp' , function(req, res){
     var state = req.body.state;
-    var result = {code: 200, data: lamp_controller.setEveryLamps(state)}
-    res.send(result);
+    res.send({code: lamp_controller.setEveryLamps(state)});
 })
 
 app.patch('/devices/lock' , function(req, res){
     var state = req.body.state;
-    var result = {code: 200, data: lock_controller.setEveryLocks(state)}
-    res.send(result);
+    res.send({code: lock_controller.setEveryLocks(state)});
 })
 
 app.patch('/devices/therm' , function(req, res){
-    res.send({code: 405, data: "Invalid HTTP Verb for this device type (PATH Verb only)"});
+    res.send({code: 405});
 })
 
 app.get('/devices' , function(req, res){

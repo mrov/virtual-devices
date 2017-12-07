@@ -20,8 +20,12 @@ therm.on('message', function (topic, message) {
  * @param {string} deviceId o id do dispositivo
  */
 exports.thermGetTemp = function (deviceId){
-  //console.log(therms[deviceId]);
-  return therms[deviceId];
+  if(typeof therms[deviceId] === "undefined"){
+    return {code: 404 , data: "Device not found"}
+  }
+  else{
+    return {code: 200, data: {temperature: therms[deviceId]}};
+  }
 }
 
 exports.everyTherms = function (){

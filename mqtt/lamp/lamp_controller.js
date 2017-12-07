@@ -21,12 +21,11 @@ lamp.on('message', function (topic, message) {
  * @param {string} deviceId o id do dispositivo
  */
 exports.lampChangeStatus = function (newState, deviceId){
-  var intNewState = Number(newState);
-  if (intNewState > 1 || intNewState < 0) {
+  if (Number(newState) > 1 || Number(newState) < 0) {
     return (408)
   }
   else{
-    lamp.publish('devices/smart_lamp/' + deviceId, intNewState);
+    lamp.publish('devices/smart_lamp/' + deviceId, newState);
     return(200);
   }
 }
@@ -36,8 +35,12 @@ exports.lampChangeStatus = function (newState, deviceId){
  * @param {string} deviceId o id do dispositivo
  */
 exports.lampGetState = function (deviceId){
-  //console.log(lamps[deviceId]);
-  return lamps[deviceId];
+  if(typeof lamps[deviceId] === "undefined"){
+    return {code: 404 , data: "Device not found"}
+  }
+  else{
+    return {code: 200, data: {state: lamps[deviceId]}};
+  }
 }
 
 exports.everyLamps = function (){
@@ -52,10 +55,15 @@ exports.everyLamps = function (){
 }
 
 exports.setEveryLamps = function(newState){
-  for (const key in lamps) {
-    if (lamps.hasOwnProperty(key)) {
-      lamp.publish('devices/smart_lamp/' + key, newState)
-    }
+  if (Number(newState) > 1 || Number(newState) < 0) {
+    return (408)
   }
-  return "Todas as lamps alteradas para " + newState;
+  else{
+    for (const key in lamps) {
+      if (lamps.hasOwnProperty(key)) {
+        lamp.publish('devices/smart_lamp/' + key, newState)
+      }
+    }
+    return (200);
+  }
 }

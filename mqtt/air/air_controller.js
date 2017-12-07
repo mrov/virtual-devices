@@ -30,8 +30,13 @@ exports.airChangeTemp = function (newTemp, deviceId){
  * @param {string} deviceId o id do dispositivo
  */
 exports.airGetTemp = function (deviceId){
-  console.log(virtual_airs[deviceId]);
-  return virtual_airs[deviceId];
+  if(typeof virtual_airs[deviceId] === "undefined"){
+    return {code: 404 , data: "Device not found"}
+  }
+  else{
+    // console.log(virtual_airs[deviceId]);
+    return {code: 200, data: {temperature: virtual_airs[deviceId]}};
+  }
 }
 
 exports.everyAirs = function (){
@@ -46,10 +51,15 @@ exports.everyAirs = function (){
 }
 
 exports.setEveryAirs = function(newTemp){
-  for (const key in virtual_airs) {
-    if (virtual_airs.hasOwnProperty(key)) {
-      air.publish('commands/air_conditioner/' + key, newTemp)
-    }
+  if(Number(newTemp) > 35 || Number(newTemp) < 0){
+    return (407)
   }
-  return "Todas os Air Conditioners alteradas para " + newTemp;
+  else{
+    for (const key in virtual_airs) {
+      if (virtual_airs.hasOwnProperty(key)) {
+        air.publish('commands/air_conditioner/' + key, newTemp)
+      }
+    }
+    return (200);
+  }
 }
