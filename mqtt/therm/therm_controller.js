@@ -19,11 +19,7 @@ therm.on('message', function (topic, message) {
 /**
  * @param {string} deviceId o id do dispositivo
  */
-function thermGetTemp(deviceId){
-  console.log(therms[deviceId]);
+exports.thermGetTemp = function (deviceId){
+  //console.log(therms[deviceId]);
   return therms[deviceId];
 }
-
-setTimeout(() => {
-  thermGetTemp("10");
-}, 1000);

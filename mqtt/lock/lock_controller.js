@@ -20,7 +20,7 @@ lock.on('message', function (topic, message) {
  * @param {string} newState o estado do dispositivo
  * @param {string} deviceId o id do dispositivo
  */
-function lockChangeState(newState, deviceId){
+exports.lockChangeState = function (newState, deviceId){
   lock.publish('commands/smart_lock/' + deviceId, newState);
   return({code: 200, data: "done"});
 }
@@ -28,13 +28,7 @@ function lockChangeState(newState, deviceId){
 /**
  * @param {string} deviceId o id do dispositivo
  */
-function lockGetTemp(deviceId){
-  console.log(locks[deviceId]);
+exports.lockGetTemp = function (deviceId){
+ // console.log(locks[deviceId]);
   return locks[deviceId];
 }
-
-
-lockChangeState("1", "15");
-setTimeout(() => {
-  lockGetTemp("15");  
-}, 1000);

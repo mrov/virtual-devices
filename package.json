@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/mrov/virtual-devices#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "mqtt": "^2.14.0"
   }

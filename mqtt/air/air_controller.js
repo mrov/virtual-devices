@@ -20,19 +20,15 @@ air.on('message', function (topic, message) {
  * @param {string} newTemp a nova temperatura do dispositivo
  * @param {string} deviceId o id do dispositivo
  */
-function airChangeTemp(newTemp, deviceId){
+exports.airChangeTemp = function (newTemp, deviceId){
   air.publish('commands/air_conditioner/' + deviceId, newTemp);
-  return({code: 200, data: "done"});
+  return("Comando enviado com sucesso.");
 }
 
 /**
  * @param {string} deviceId o id do dispositivo
  */
-function airGetTemp(deviceId){
-  console.log(virtual_airs[deviceId]);
+exports.airGetTemp = function (deviceId){
+  //console.log(virtual_airs[deviceId]);
   return virtual_airs[deviceId];
 }
-airChangeTemp("15", "80");
-setTimeout(() => {
-  airGetTemp("80");
-}, 500);

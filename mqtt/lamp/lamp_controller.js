@@ -20,7 +20,7 @@ lamp.on('message', function (topic, message) {
  * @param {string} newState Estado da lampada
  * @param {string} deviceId o id do dispositivo
  */
-function lampChangeStatus(newState, deviceId){
+exports.lampChangeStatus = function (newState, deviceId){
   var intNewState = Number(newState);
   if (intNewState > 1) {
     return ({code: 405, data: "Estado inválido, por favor só pode ser 0 ou 1."})
@@ -35,29 +35,7 @@ function lampChangeStatus(newState, deviceId){
 /**
  * @param {string} deviceId o id do dispositivo
  */
-function lampGetState(deviceId){
-  console.log(lamps[deviceId]);
+exports.lampGetState = function (deviceId){
+  //console.log(lamps[deviceId]);
   return lamps[deviceId];
 }
-
-//airChangeTemp("33", "0");
-setTimeout(() => {
-  lampGetState("10");
-}, 1000);
-//airGetTemp(0);
-//airGetTemp(0);
-//airGetTemp(0);
-
-
-
-// air.on('message', function (topic, message) {
-//   // message is Buffer
-//   console.log(message.toString())
-// });
-
-/*
-setTimeout(() => {
-    air.publish('commands/air_conditioner/0', '33');
-    console.log("moabe renato");
-}, 2000);
-*/
