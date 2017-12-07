@@ -1,60 +1,40 @@
 var mqtt = require('mqtt');
-var air  = mqtt.connect("mqtt://localhost:5000");
-var lamp = mqtt.connect("mqtt://localhost:5001");
 var lock = mqtt.connect("mqtt://localhost:5002");
-var therm = mqtt.connect("mqtt://localhost:5003");
+var locks = {};
  
-air.on('connect', function () {
-  air.subscribe('drivers/#')
+lock.on('connect', function () {
+  lock.subscribe('drivers/smart_lock')
 })
 
+lock.on('message', function (topic, message) {
+  // message is Buffer
+  let mensagem = message.toString();
+  let n = mensagem.indexOf(";");
+  let id = mensagem.slice(0,n);
+  let state = mensagem.slice(n+1,n+2);
+  //console.log("mensagem: " + message + " indice do ponto e virgula: " + n + " id: " + id + " Estado: " + state);
+  locks[id] = state;
+});
+
 /**
- * @param {string} newTemp a nova temperatura do dispositivo
+ * @param {string} newState o estado do dispositivo
  * @param {string} deviceId o id do dispositivo
  */
-function airChangeTemp(newTemp, deviceId){
-  air.publish('commands/air_conditioner/' + deviceId, newTemp);
+function lockChangeState(newState, deviceId){
+  lock.publish('commands/smart_lock/' + deviceId, newState);
   return({code: 200, data: "done"});
 }
 
-
 /**
  * @param {string} deviceId o id do dispositivo
  */
-function airGetTemp(deviceId){
-  var result = "";
-  air.on('message', function (topic, message) {
-    // message is Buffer
-    let mensagem = message.toString();
-    let n = mensagem.indexOf(":");
-    let id = mensagem.slice(0,n);
-    let temp = mensagem.slice(n+2,);
-    console.log("mensagem: " + message + " indice dos 2 pontos: " + n + " id: " + id + " temperatura: " + temp);
-    if(deviceId === id){
-      result = temp;
-      air.removeAllListeners();
-    }
-  });
-  setTimeout(() => {
-    console.log(result);
-  }, 3000);
+function lockGetTemp(deviceId){
+  console.log(locks[deviceId]);
+  return locks[deviceId];
 }
-airChangeTemp("33", "0");
-airGetTemp("80");
-//airGetTemp(0);
-//airGetTemp(0);
-//airGetTemp(0);
 
 
-
-// air.on('message', function (topic, message) {
-//   // message is Buffer
-//   console.log(message.toString())
-// });
-
-/*
+lockChangeState("1", "15");
 setTimeout(() => {
-    air.publish('commands/air_conditioner/0', '33');
-    console.log("moabe renato");
-}, 2000);
-*/
+  lockGetTemp("15");  
+}, 1000);
