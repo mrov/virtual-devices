@@ -39,3 +39,23 @@ exports.lampGetState = function (deviceId){
   //console.log(lamps[deviceId]);
   return lamps[deviceId];
 }
+
+exports.everyLamps = function (){
+  var arrayLamps = [];
+  for (const key in lamps) {
+    if (lamps.hasOwnProperty(key)) {
+      const lamp = {id: key, state: lamps[key]};
+      arrayLamps.push(lamp);
+    }
+  }
+  return arrayLamps;
+}
+
+exports.setEveryLamps = function(newState){
+  for (const key in lamps) {
+    if (lamps.hasOwnProperty(key)) {
+      lamp.publish('devices/smart_lamp/' + key, newState)
+    }
+  }
+  return "Todas as lamps alteradas para " + newState;
+}

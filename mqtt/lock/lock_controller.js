@@ -28,7 +28,27 @@ exports.lockChangeState = function (newState, deviceId){
 /**
  * @param {string} deviceId o id do dispositivo
  */
-exports.lockGetTemp = function (deviceId){
+exports.lockGetState = function (deviceId){
  // console.log(locks[deviceId]);
   return locks[deviceId];
+}
+
+exports.everyLocks = function (){
+  var arrayLocks = [];
+  for (const key in locks) {
+    if (locks.hasOwnProperty(key)) {
+      const lock = {id: key, state: locks[key]};
+      arrayLocks.push(lock);
+    }
+  }
+  return arrayLocks;
+}
+
+exports.setEveryLocks = function(newState){
+  for (const key in locks) {
+    if (locks.hasOwnProperty(key)) {
+      lock.publish('commands/smart_lock/' + key, newState)
+    }
+  }
+  return "Todas as locks alteradas para " + newState;
 }

@@ -32,3 +32,23 @@ exports.airGetTemp = function (deviceId){
   //console.log(virtual_airs[deviceId]);
   return virtual_airs[deviceId];
 }
+
+exports.everyAirs = function (){
+  var arrayVirtualAirs = [];
+  for (const key in virtual_airs) {
+    if (virtual_airs.hasOwnProperty(key)) {
+      const virtual_air = {id: key, temp: virtual_airs[key]};
+      arrayVirtualAirs.push(virtual_air);
+    }
+  }
+  return arrayVirtualAirs;
+}
+
+exports.setEveryAirs = function(newTemp){
+  for (const key in virtual_airs) {
+    if (virtual_airs.hasOwnProperty(key)) {
+      air.publish('commands/air_conditioner/' + key, newTemp)
+    }
+  }
+  return "Todas os Air Conditioners alteradas para " + newTemp;
+}
