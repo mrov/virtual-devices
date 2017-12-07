@@ -21,15 +21,16 @@ air.on('message', function (topic, message) {
  * @param {string} deviceId o id do dispositivo
  */
 exports.airChangeTemp = function (newTemp, deviceId){
+  if(Number(newTemp) > 35 || Number(newTemp) < 0){return (407)}
   air.publish('commands/air_conditioner/' + deviceId, newTemp);
-  return("Comando enviado com sucesso.");
+  return(200);
 }
 
 /**
  * @param {string} deviceId o id do dispositivo
  */
 exports.airGetTemp = function (deviceId){
-  //console.log(virtual_airs[deviceId]);
+  console.log(virtual_airs[deviceId]);
   return virtual_airs[deviceId];
 }
 

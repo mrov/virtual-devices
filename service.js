@@ -43,26 +43,26 @@ app.patch('/device/air/:id', function(req, res){
     var deviceId = req.params.id;
     var temperature = req.body.temperature;
     var state = req.body.state;
-    var result = {code: 200, data: {temperature: air_controller.airChangeTemp(temperature,deviceId)}};
+    var result = {code: air_controller.airChangeTemp(temperature,deviceId)};
     res.send(result);
 })
 
 app.patch('/device/lamp/:id' , function(req, res){
     var deviceId = req.params.id;
     var state = req.body.state;
-    var result = {code: 200, data: {state: lamp_controller.lampChangeStatus(state,deviceId)}};
+    var result = {code: lamp_controller.lampChangeStatus(state,deviceId)};
     res.send(result);
 })
 
 app.patch('/device/lock/:id' , function(req, res){
     var deviceId = req.params.id;
     var state = req.body.state;
-    var result = {code: 200, data: {state: lock_controller.lockChangeState(state,deviceId)}};
+    var result = {code: lock_controller.lockChangeState(state,deviceId)};
     res.send(result);
 })
 
 app.patch('/device/therm/:id' , function(req, res){
-    res.send({code: 405, data: "Invalid HTTP Verb for this device type (PATH Verb only)"});
+    res.send({code: 405});
 })
 
 app.get('/devices/air' , function(req, res){

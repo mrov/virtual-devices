@@ -21,8 +21,14 @@ lock.on('message', function (topic, message) {
  * @param {string} deviceId o id do dispositivo
  */
 exports.lockChangeState = function (newState, deviceId){
-  lock.publish('commands/smart_lock/' + deviceId, newState);
-  return({code: 200, data: "done"});
+  var intNewState = Number(newState);
+  if (intNewState > 1 || intNewState < 0) {
+    return (408)
+  }
+  else{
+    lock.publish('commands/smart_lock/' + deviceId, newState);
+    return(200);
+  }
 }
 
 /**

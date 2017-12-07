@@ -22,12 +22,12 @@ lamp.on('message', function (topic, message) {
  */
 exports.lampChangeStatus = function (newState, deviceId){
   var intNewState = Number(newState);
-  if (intNewState > 1) {
-    return ({code: 405, data: "Estado inválido, por favor só pode ser 0 ou 1."})
+  if (intNewState > 1 || intNewState < 0) {
+    return (408)
   }
   else{
     lamp.publish('devices/smart_lamp/' + deviceId, intNewState);
-    return({code: 200, data: "Done!"});
+    return(200);
   }
 }
 
