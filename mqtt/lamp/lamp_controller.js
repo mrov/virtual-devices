@@ -34,12 +34,12 @@ exports.lampChangeStatus = function (newState, deviceId){
 /**
  * @param {string} deviceId o id do dispositivo
  */
-exports.lampGetState = function (deviceId){
+exports.lampGetState = function (deviceId){  //Procura lâmpada de id informado, caso não encontre retorna erro
   if(typeof lamps[deviceId] === "undefined"){
     return {code: 404 , data: "Device not found"}
   }
   else{
-    return {code: 200, data: {state: lamps[deviceId]}};
+    return {code: 200, data: {state: lamps[deviceId]}};  //Caso encontre, retorna o estado atual da lâmpada
   }
 }
 
@@ -54,7 +54,7 @@ exports.everyLamps = function (){
   return arrayLamps;
 }
 
-exports.setEveryLamps = function(newState){
+exports.setEveryLamps = function(newState){  // Seta o estado de todas as lâmpadas ao mesmo tempo
   if (Number(newState) > 1 || Number(newState) < 0) {
     return (408)
   }
