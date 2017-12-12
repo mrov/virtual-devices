@@ -20,7 +20,7 @@ air.on('message', function (topic, message) {
  * @param {string} newTemp a nova temperatura do dispositivo
  * @param {string} deviceId o id do dispositivo
  */
-exports.airChangeTemp = function (newTemp, deviceId){
+exports.airChangeTemp = function (newTemp, deviceId){ //recebe nova temperatura no intervalo de 0 a 35 graus
   if(Number(newTemp) > 35 || Number(newTemp) < 0){return (407)}
   air.publish('commands/air_conditioner/' + deviceId, newTemp);
   return(200);
@@ -29,7 +29,7 @@ exports.airChangeTemp = function (newTemp, deviceId){
 /**
  * @param {string} deviceId o id do dispositivo
  */
-exports.airGetTemp = function (deviceId){
+exports.airGetTemp = function (deviceId){ //retorna temperatura atual
   if(typeof virtual_airs[deviceId] === "undefined"){
     return {code: 404 , data: "Device not found"}
   }
@@ -39,7 +39,7 @@ exports.airGetTemp = function (deviceId){
   }
 }
 
-exports.everyAirs = function (){
+exports.everyAirs = function (){ //pega a temperatura atual de todos
   var arrayVirtualAirs = [];
   for (const key in virtual_airs) {
     if (virtual_airs.hasOwnProperty(key)) {
@@ -50,7 +50,7 @@ exports.everyAirs = function (){
   return arrayVirtualAirs;
 }
 
-exports.setEveryAirs = function(newTemp){
+exports.setEveryAirs = function(newTemp){ // seta uma nova temperatura para todos ao mesmo tempo
   if(Number(newTemp) > 35 || Number(newTemp) < 0){
     return (407)
   }
