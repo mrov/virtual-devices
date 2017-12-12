@@ -52,12 +52,12 @@ exports.everyAirs = function (){ //pega a temperatura atual de todos
 
 exports.setEveryAirs = function(newTemp){ // seta uma nova temperatura para todos ao mesmo tempo
   if(Number(newTemp) > 35 || Number(newTemp) < 0){
-    return (407)
+    return (407);
   }
   else{
     for (const key in virtual_airs) {
       if (virtual_airs.hasOwnProperty(key)) {
-        air.publish('commands/air_conditioner/' + key, newTemp)
+        air.publish('commands/air_conditioner/' + key, newTemp);
       }
     }
     return (200);
