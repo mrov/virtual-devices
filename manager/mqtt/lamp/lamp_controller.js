@@ -1,12 +1,13 @@
 var mqtt = require('mqtt');
-var lamp = mqtt.connect("mqtt://localhost:5001");
+var dns = require('../../req').dns
+var lamp = mqtt.connect("mqtt://" + global.address);
 var lamps = {}
  
 lamp.on('connect', function () {
   lamp.subscribe('drivers/smart_lamp')
 })
 
-lamp.on('message', function (topic, message) {
+lamp.on('message', (topic, message) => {
   // message is Buffer
   let mensagem = message.toString();
   let n = mensagem.indexOf("=");
@@ -14,6 +15,7 @@ lamp.on('message', function (topic, message) {
   let state = mensagem.slice(n+1,n+2);
   //console.log("mensagem: " + message + " indice do '=': " + n + " id: " + id + " estado: " + state);
   lamps[id] = state;
+  dns({ type: 'UPDATE_DEVICE', device: 'lamp', id: id, address: global.localaddress})
 });
 
 /**

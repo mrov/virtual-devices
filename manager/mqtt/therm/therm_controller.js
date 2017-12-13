@@ -1,12 +1,13 @@
 var mqtt = require('mqtt');
-var therm = mqtt.connect("mqtt://localhost:5003");
+var dns = require('../../req').dns
+var therm = mqtt.connect("mqtt://" + global.address);
 var therms = {};
 
 therm.on('connect', function () {
   therm.subscribe('drivers/termometer');
 })
 
-therm.on('message', function (topic, message) {
+therm.on('message', (topic, message) => {
   // message is Buffer
   let mensagem = message.toString();
   let n = mensagem.indexOf(">");
@@ -14,6 +15,7 @@ therm.on('message', function (topic, message) {
   let temp = mensagem.slice(n+1,);
   //console.log("mensagem: " + message + " indice '>': " + n + " id: " + id + " temperatura: " + temp);
   therms[id] = temp;
+  dns({ type: 'UPDATE_DEVICE', device: 'therm', id: id, address: global.localaddress})
 });
 
 /**

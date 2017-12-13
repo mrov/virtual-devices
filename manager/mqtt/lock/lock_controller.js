@@ -1,12 +1,13 @@
 var mqtt = require('mqtt');
-var lock = mqtt.connect("mqtt://localhost:5002");
+var dns = require('../../req').dns
+var lock = mqtt.connect("mqtt://" + global.address);
 var locks = {};
  
 lock.on('connect', function () {
   lock.subscribe('drivers/smart_lock')
 })
 
-lock.on('message', function (topic, message) {
+lock.on('message', (topic, message) => {
   // message is Buffer
   let mensagem = message.toString();
   let n = mensagem.indexOf(";");
@@ -14,6 +15,7 @@ lock.on('message', function (topic, message) {
   let state = mensagem.slice(n+1,n+2);
   //console.log("mensagem: " + message + " indice do ponto e virgula: " + n + " id: " + id + " Estado: " + state);
   locks[id] = state;
+  dns({ type: 'UPDATE_DEVICE', device: 'lock', id: id, address: global.localaddress})
 });
 
 /**

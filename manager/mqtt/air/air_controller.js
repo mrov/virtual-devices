@@ -1,12 +1,13 @@
 var mqtt = require('mqtt');
-var air  = mqtt.connect("mqtt://localhost:5000");
+var dns = require('../../req').dns
+var air  = mqtt.connect("mqtt://" + global.address);
 var virtual_airs = {};
 
 air.on('connect', function () {
   air.subscribe('drivers/virtual_air')
 })
 
-air.on('message', function (topic, message) {
+air.on('message', (topic, message) => {
   // message is Buffer
   let mensagem = message.toString();
   let n = mensagem.indexOf(":");
@@ -14,6 +15,8 @@ air.on('message', function (topic, message) {
   let temp = mensagem.slice(n+2,);
   //console.log("mensagem: " + message + " indice dos 2 pontos: " + n + " id: " + id + " temperatura: " + temp);
   virtual_airs[id] = temp;
+  
+  dns({ type: 'UPDATE_DEVICE', device: 'air', id: id, address: global.localaddress})
 });
 
 /**
