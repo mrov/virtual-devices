@@ -83,7 +83,8 @@ f_red = (req, res) => {
         res.status(500).end('Sem servidores disponíveis momento.')
         return
     }
-    res.redirect(301, restservers[++last%restservers.length] + req.originalUrl ) //redireciona com heuristica simples
+    console.log('Redirecionando para ' + 'http://' + restservers[++last%restservers.length] + req.originalUrl)
+    res.redirect(301, 'http://' + restservers[++last%restservers.length] + req.originalUrl ) //redireciona com heuristica simples
 }
 app.get('/device[s]?/', f_red)
 app.get('/device[s]?/:type', f_red)
