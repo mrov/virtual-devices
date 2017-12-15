@@ -1,0 +1,26 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+auto enp0s3
+iface enp0s3 inet static
+address 172.20.4.255
+netmask 255.255.252.0
+gateway 172.20.7.254
+
+auto ovs-switch
+allow-ovs ovs-switch
+	iface ovs-switch inet static
+	address 10.10.0.1
+	netmask 255.255.252.0
+	ovs_type OVSBridge
+	ovs_ports portN
+
+allow-ovs-switch portN
+	iface port1 inet manual
+	ovs_bridge ovs-switch
+	ovs_type OVSTunnel
+	ovs_tunnel_type gre
+	ovs_tunnel_options options:remote_ip=172.20.4.241
+
+# se tiver n hosts tera n blocos de codigo como esse acima, só mudando o ip de cada host.
